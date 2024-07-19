@@ -12,12 +12,22 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Posdemo {
-	public static void main(String[] args) throws AWTException {
-		
+	
+	@BeforeMethod
+	public void setup()
+	{
 		WebDriverManager.chromedriver().setup();
+	}
+	@Test
+	public static void task1() throws AWTException {
+		
+		
 		 ChromeDriver driver= new ChromeDriver();
 	  	 driver.get("https://www.pos.com.my/");
 	  	 driver.manage().window().maximize();
@@ -46,37 +56,38 @@ public class Posdemo {
    	assertTrue(driver.findElement(By.xpath("//input[@placeholder=\"ID Number*\"]")).isDisplayed()); 
    	assertTrue(driver.findElement(By.xpath("//input[@placeholder=\"Mobile Number*\"]")).isDisplayed());
    	assertTrue(driver.findElement(By.xpath("//div[@class=\"marital-inner-container\"]")).isDisplayed());  
+   	
 	}
+	@Test
+public static void test2() throws AWTException {
+	
+  	 ChromeDriver driver= new ChromeDriver();
+  	 driver.get("https://www.pos.com.my/");
+  	 driver.manage().window().maximize();
+  	     	 try {
+  	driver.findElement(By.xpath("//img[@alt=\"Pos Close Alert Icon\"]")).click();
+  	 }catch (Exception e)
+  	 {
+  		 System.out.println("no element");
+  	 }
+	 WebElement mousehover = driver.findElement(By.xpath("/html/body/app-root/div/app-floating-bar/div[1]/div/div/div/div/div[1]/a"));
+    	 Actions action=new Actions(driver);
+    	 action.moveToElement(mousehover).perform();
+    	 driver.findElement(By.linkText("Parcel")).click();
+    	 WebElement scrollingbutton =driver.findElement(By.linkText("Create shipment now"));
+    	 JavascriptExecutor jse= (JavascriptExecutor) driver;
+    	 jse.executeScript("arguments[0].scrollIntoView(true)", scrollingbutton);
+    	 Robot r=new Robot();
+      r.mouseWheel(-4);    	      
+    	scrollingbutton.click();
+    	assertEquals("https://send.pos.com.my/home/e-connote?lg=en",driver.getCurrentUrl());
+    assertTrue(driver.findElement(By.id("stepSender")).isDisplayed());
+  assertTrue(driver.findElement(By.id("stepReceiver")).isDisplayed());
+assertTrue(driver.findElement(By.id("stepParcel")).isDisplayed());
+assertTrue(driver.findElement(By.id("stepSummary")).isDisplayed());
 
-	public void test2() throws AWTException {
-		WebDriverManager.chromedriver().setup();
-	  	 ChromeDriver driver= new ChromeDriver();
-	  	 driver.get("https://www.pos.com.my/");
-	  	 driver.manage().window().maximize();
-	  	     	 try {
-	  	driver.findElement(By.xpath("//img[@alt=\"Pos Close Alert Icon\"]")).click();
-	  	 }catch (Exception e)
-	  	 {
-	  		 System.out.println("no element");
-	  	 }
-		 WebElement mousehover = driver.findElement(By.xpath("/html/body/app-root/div/app-floating-bar/div[1]/div/div/div/div/div[1]/a"));
-	    	 Actions action=new Actions(driver);
-	    	 action.moveToElement(mousehover).perform();
-	    	 driver.findElement(By.linkText("Parcel")).click();
-	    	 WebElement scrollingbutton =driver.findElement(By.linkText("Create shipment now"));
-	    	 JavascriptExecutor jse= (JavascriptExecutor) driver;
-	    	 jse.executeScript("arguments[0].scrollIntoView(true)", scrollingbutton);
-	    	 Robot r=new Robot();
-	      r.mouseWheel(-4);    	      
-	    	scrollingbutton.click();
-	    	assertEquals("https://send.pos.com.my/home/e-connote?lg=en",driver.getCurrentUrl());
-	    assertTrue(driver.findElement(By.id("stepSender")).isDisplayed());
-	  assertTrue(driver.findElement(By.id("stepReceiver")).isDisplayed());
-	assertTrue(driver.findElement(By.id("stepParcel")).isDisplayed());
-	assertTrue(driver.findElement(By.id("stepSummary")).isDisplayed());
-
-	}
-	}
+}
+}
 	
 	
 	
